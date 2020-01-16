@@ -1,3 +1,5 @@
+# known_hosts 등록하기 (ansible-playbook -i 인벤토리파일명 add_known_hosts.yml -k)
+
 - hosts: ELK_Node
   connection: local
   serial: 1
