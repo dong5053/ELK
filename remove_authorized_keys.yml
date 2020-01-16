@@ -1,0 +1,8 @@
+---
+- host: ELK_Node
+  tasks:
+   - name: Remove ansible server key in node    # Ansible Node Authorized Keys에 등록된 ansibler server SSH Key 값 제거
+     lineinfile:
+      path: ~/.ssh/authorized_keys
+      state: absent
+      regexp: 'ansible-server$'           # ansible-server로 끝나는 라인을 찾는 정규식
