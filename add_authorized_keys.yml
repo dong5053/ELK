@@ -8,7 +8,7 @@
      ignore_errors: yes
      run_once: true                   # key 생성 반복실행 방지를 위해 한번만 실행
 
-   - name: import id_rsa.pub
+   - name: import id_rsa.pub          # ansible server의 공개키값
      connection: local
      command: "cat ~/.ssh/id_rsa.pub"
      register: id_pub                 # id_rsa.pub 파일 내용을 id_pub 변수에 저장
@@ -19,7 +19,7 @@
       path: ~/.ssh/authorized_keys
      register: file_auth_key
 
-   - name: If directory does not exist
+   - name: If directory does not exist  # .ssh 디렉터리 생성
      file:
       path: ~/.ssh
       state: directory
@@ -32,7 +32,7 @@
      when: file_auth_key.stat.exists == false
 
    - name: add ansible node authorized keys
-     lineinfile:
+     lineinfile:                            # 이미 존재하는 파일에 추가할 라인이 있는지 체크, 없는 경우에만 추가됨
       dest: ~/.ssh/authorized_keys
       line: "{{ id_pub.stdout }}"
      when: file_auth_key.stat.exists == true
