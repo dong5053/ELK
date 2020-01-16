@@ -4,7 +4,7 @@
   tasks:
    - name: ssh-keygen ansible server
      connection: local                # ansible server에서 ssh key 생성을 위해 local에서 실행
-     command: "ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N ''"
+     command: "ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N ''"     # 개인키 생성
      ignore_errors: yes
      run_once: true                   # key 생성 반복실행 방지를 위해 한번만 실행
 
@@ -14,7 +14,26 @@
      register: id_pub                 # id_rsa.pub 파일 내용을 id_pub 변수에 저장
      run_once: true
 
+   - name: Check file
+     stat:
+     path: ~/.ssh/authorized_keys
+     register: auth_key
+
+   - name: If file does not exist
+     copy:
+      src: ~/.ssh/id_rsa.pub
+      dest: ~/.ssh/authorized_keys
+      when: auth_key.stat.exists == false
+
    - name: add ansible node authorized keys
      lineinfile:
       dest: ~/.ssh/authorized_keys
       line: "{{ id_pub.stdout }}"
+      when: auth_key.stat.exists
+   
+   - name: Change file ownership, group and permissions   # 접근권한 변경
+     file:
+      path: ~/.ssh/authorized_keys
+      owner: root
+      group: root
+      mode: '0644'
