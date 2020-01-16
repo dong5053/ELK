@@ -16,8 +16,8 @@
 
    - name: Check file
      stat:
-     path: ~/.ssh/authorized_keys
-     register: auth_key
+      path: ~/.ssh/authorized_keys
+      register: auth_key
 
    - name: If file does not exist
      copy:
