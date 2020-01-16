@@ -17,19 +17,19 @@
    - name: Check file
      stat:
       path: ~/.ssh/authorized_keys
-      register: auth_key
+     register: auth_key
 
    - name: If file does not exist
      copy:
       src: ~/.ssh/id_rsa.pub
       dest: ~/.ssh/authorized_keys
-      when: auth_key.stat.exists == false
+     when: auth_key.stat.exists == false
 
    - name: add ansible node authorized keys
      lineinfile:
       dest: ~/.ssh/authorized_keys
       line: "{{ id_pub.stdout }}"
-      when: auth_key.stat.exists == true
+     when: auth_key.stat.exists == true
    
    - name: Change file ownership, group and permissions   # 접근권한 변경
      file:
