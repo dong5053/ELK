@@ -1,0 +1,20 @@
+# authorized_key 등록하기 (ansible-playbook -i 인벤토리파일명 add_authorized_keys.yml -k)
+
+- hosts: ELK_Node
+  tasks:
+   - name: ssh-keygen ansible server
+     connection: local                # ansible server에서 ssh key 생성을 위해 local에서 실행
+     command: "ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N ''"
+     ignore_errors: yes
+     run_once: true                   # key 생성 반복실행 방지를 위해 한번만 실행
+
+   - name: import id_rsa.pub
+     connection: local
+     command: "cat ~/.ssh/id_rsa.pub"
+     register: id_pub                 # id_rsa.pub 파일 내용을 id_pub 변수에 저장
+     run_once: true
+
+   - name: add ansible node authorized keys
+     lineinfile:
+      dest: ~/.ssh/authorized_keys
+      line: "{{ id_pub.stdout }}"
