@@ -1,0 +1,11 @@
+---
+- name: Drop all incoming traffic           # 들어오는 모든 트래픽 무시
+  become: yes
+  hosts: localhost                          # 정책을 적용시킬 대상 지정
+  tasks:
+   - iptables:
+      chain: INPUT
+      state: present
+      protocol: all
+      jump: DROP
+      comment: "Drop all incoming traffic role"
