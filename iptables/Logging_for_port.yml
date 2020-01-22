@@ -1,0 +1,14 @@
+---
+- name: Logging for port
+  hosts: localhost
+  become: yes
+  tasks:
+   - iptables:
+      chain: OUTPUT
+      destination_port: 22
+      action: append
+      state: present
+      limit: 2/second
+      limit_burst: 20
+      log_prefix: "SSH Log : "
+      log_level: info
