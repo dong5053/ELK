@@ -1,0 +1,12 @@
+---
+# ansible-playbook Delete_rule_on_chain.yml --extra-vars "CHAIN_NAME=체인명 LINE_NUM=삭제할 줄번호"
+- name: Delete a rule on chain
+  become: yes
+  hosts: localhost
+  tasks:
+   - iptables:
+      chain: "{{ CHAIN_NAME }}"
+      flush: yes
+   - debug:
+      msg: 
+       - "{{ CHAIN_NAME }} flush complete"
