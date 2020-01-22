@@ -1,0 +1,7 @@
+---
+- name: Delete a rule on line
+  become: yes
+  tasks:
+   - iptables:
+      state: absent
+      rule_num: 6
