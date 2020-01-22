@@ -1,6 +1,7 @@
 ---
 - name: Reject IP ranges
   become: yes
+  hosts: localhost
   tasks:
    - iptables:
       state: present                          # 해당 규칙이 존재해야한다
