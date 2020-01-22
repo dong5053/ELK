@@ -1,6 +1,7 @@
 ---
 - name: Specific port open               # 특정 포트만 오픈
   become: yes
+  hosts: localhost
   tasks:
    - name: ACCEPT http and https
      iptables:
