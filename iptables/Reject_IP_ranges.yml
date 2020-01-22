@@ -7,7 +7,7 @@
       state: present                          # 해당 규칙이 존재해야한다
       chain: INPUT                            # 호스트 컴퓨터를 향한 모든 패킷
       source: 192.168.111.1/24
-      jump: REJECT
+      jump: REJECT                            # DROP / REJECT 선택 사용
       comment: "Range base IP Reject"
     
     
