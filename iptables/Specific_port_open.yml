@@ -7,8 +7,8 @@
      iptables:
       chain: INPUT
       state: present
-      ctstate: NEW,ESTABLISHED                 # NEW - 새로운 연결을 요청하는 패킷, ESTABLISHED - 기존 연결의 일부인 패킷
+      ctstate: "NEW,ESTABLISHED"                 # NEW - 새로운 연결을 요청하는 패킷, ESTABLISHED - 기존 연결의 일부인 패킷
       protocol: tcp
       destination_port: 80,443
-      match: multiport, conntrack
+      match: "multiport,conntrack"
       jump: ACCEPT
