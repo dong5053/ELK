@@ -10,7 +10,7 @@
       destination_port: 22
       action: append
       state: present
-      limit: 2/second                 # 초당 평균 최대 검사 수(2초에 매칭되는 수를 20으로 설정)
+      limit: 2/second                 # 초당 평균 최대 검사 수(초당 평균 2개 로그기록)
       limit_burst: 20                 # 정책에 일치하는 패킷의 최대 수
       log_prefix: "sshlog:"           # 로그 앞에 기입할 문자열
       log_level: info                 # 0 ~ 7까지 총 8개 옵션 선택가능
