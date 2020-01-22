@@ -1,18 +1,26 @@
----
+--
 - name: Setting Log
-  hosts: localhost
+  hosts: localhost                    # 정책을 적용할 대상, 해당 옵션을 사용하지 않고 인벤토리 파일 사용가능
   become: yes
   tasks:
    - iptables:
       chain: INPUT
       jump: LOG
       protocol: tcp
-      destination_port: 80,443
+      destination_port: 22
       action: append
       state: present
-      ctstate: "NEW,ESTABLISHED"
-      match: "multiport,conntrack"
-      limit: 2/second
-      limit_burst: 20
-      log_prefix: "HTTP Log : "
-      log_level: info
+      limit: 2/second                 # 초당 평균 최대 검사 수(2초에 매칭되는 수를 20으로 설정)
+      limit_burst: 20                 # 정책에 일치하는 패킷의 최대 수
+      log_prefix: "sshlog:"           # 로그 앞에 기입할 문자열
+      log_level: info                 # 0 ~ 7까지 총 8개 옵션 선택가능
+      
+# *** log level ***
+# 0 - emerg
+# 1 - alert
+# 2 - crit
+# 3 - error
+# 4 - warning
+# 5 - notice
+# 6 - info
+# 7 - debug
