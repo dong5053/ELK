@@ -1,13 +1,16 @@
 ---
-- name: Logging for port
+- name: Setting Log
   hosts: localhost
   become: yes
   tasks:
    - iptables:
       chain: OUTPUT
+      jump: LOG
+      protocol: tcp
       destination_port: 22
       action: append
       state: present
+      ctstate: "NEW,ESTABLISHED"
       limit: 2/second
       limit_burst: 20
       log_prefix: "SSH Log : "
