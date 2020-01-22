@@ -1,0 +1,13 @@
+---
+- name: Reject IP ranges
+  become: yes
+  iptables:
+    action: insert
+    chain: INPUT                            # 호스트 컴퓨터를 향한 모든 패킷
+    source: 192.168.111.1/24
+    jump: REJECT
+    comment: "Reject IP Ranges"
+    
+    
+    
+    
