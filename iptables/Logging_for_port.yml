@@ -4,14 +4,15 @@
   become: yes
   tasks:
    - iptables:
-      chain: OUTPUT
+      chain: INPUT
       jump: LOG
       protocol: tcp
-      destination_port: 22
+      destination_port: 80,443
       action: append
       state: present
       ctstate: "NEW,ESTABLISHED"
+      match: "multiport,conntrack"
       limit: 2/second
       limit_burst: 20
-      log_prefix: "SSH Log : "
+      log_prefix: "HTTP Log : "
       log_level: info
