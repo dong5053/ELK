@@ -44,7 +44,7 @@
    - name: Accept ping
      iptables:
       chain: "{{ item }}"
-      statem: present
+      state: present
       protocol: icmp
       jump: ACCEPT
      with_items: [ 'INPUT', 'OUTPUT' ]
