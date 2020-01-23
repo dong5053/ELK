@@ -6,7 +6,7 @@
    - name: Setting default policy               # 기본 정책 설정 (INPUT, OUPUT 체인의 기본정책을 DROP으로 설정)
      iptables:
       chain: "{{ item }}"
-      policy: DROP
+      policy: ACCEPT
      with_items: [ 'INPUT', 'OUTPUT' ]
    - debug:
       msg: 
@@ -27,7 +27,8 @@
       state: present
       protocol: tcp
       destination_port: 22
-      src_range: 192.168.111.120-192.168.111.130  # SSH 통신을 허용할 IP 목록
+      action: insert                        # 해당 정책 삽입
+      rule_num: 1                           # 1번에 삽입
       jump: ACCEPT
 
    - iptables:
@@ -35,7 +36,8 @@
       state: present
       protocol: tcp
       destination_port: 22
-      dst_range: 192.168.111.120-192.168.111.130  # SSH 통신을 허용할 IP 목록
+      action: insert
+      rule_num: 1
       jump: ACCEPT
    - debug:
       msg: 
