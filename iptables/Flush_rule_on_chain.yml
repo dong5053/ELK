@@ -1,6 +1,6 @@
 ---
-# ansible-playbook Delete_rule_on_chain.yml --extra-vars "CHAIN_NAME=체인명"
-- name: Delete a rule on chain
+# ansible-playbook Flush_rule_on_chain.yml --extra-vars "CHAIN_NAME=체인명"
+- name: Flush a rule on chain
   become: yes
   hosts: localhost
   tasks:
