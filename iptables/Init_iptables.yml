@@ -21,22 +21,13 @@
       msg: 
        - "FORWARD chain setting complete"
 
-   - name: flush all chain               # 모든 체인 flush
-     iptables:
-      chain: "{{ item }}"
-      flush: yes
-     with_items: ['INPUT', 'OUTPUT', 'FORWARD']
-   - debug:
-      msg: 
-       - "Chain flush complete"
-
-   - name: ACCEPT SSH traffic
+   - name: Accept SSH traffic
      iptables:
       chain: INPUT
       state: present
       protocol: tcp
       destination_port: 22
-      src_range: 192.168.111.120-192.168.111.130
+      src_range: 192.168.111.120-192.168.111.130  # SSH 통신을 허용할 IP 목록
       jump: ACCEPT
 
    - iptables:
@@ -44,5 +35,19 @@
       state: present
       protocol: tcp
       destination_port: 22
-      dst_range: 192.168.111.120-192.168.111.130
+      dst_range: 192.168.111.120-192.168.111.130  # SSH 통신을 허용할 IP 목록
       jump: ACCEPT
+   - debug:
+      msg: 
+       - "Accept SSH traffic complete"
+
+   - name: Accept ping
+     iptables:
+      chain: "{{ item }}"
+      statem: present
+      protocol: icmp
+      jump: ACCEPT
+     with_items: [ 'INPUT', 'OUTPUT' ]
+   - debug:
+      msg: 
+       - "Accept ping complete"
