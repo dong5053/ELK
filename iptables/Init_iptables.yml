@@ -7,20 +7,28 @@
      iptables:
       chain: "{{ item }}"
       policy: DROP
-      flush: yes
      with_items: [ 'INPUT', 'OUTPUT' ]
    - debug:
       msg: 
        - "{{ item }} chain setting complete"
+     with_items: [ 'INPUT', 'OUTPUT' ]
 
    - name: Setting default policy               # 기본 정책 설정 (FORWARD 체인의 기본정책을 ACCEPT으로 설정)
      iptables:
       chain: FORWARD
       policy: ACCEPT
-      flush: yes
    - debug:
       msg: 
        - "FORWARD chain setting complete"
+
+   - name: flush all chain               # 모든 체인 flush
+     iptables:
+      chain: "{{ item }}"
+      flush: yes
+     with_items: ['INPUT', 'OUTPUT', 'FORWARD']
+   - debug:
+      msg: 
+       - "Chain flush complete"
 
    - name: ACCEPT SSH traffic
      iptables:
