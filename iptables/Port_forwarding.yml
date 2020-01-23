@@ -1,0 +1,15 @@
+---
+- name: Forward port 80 to 8080             # Forward 정책 (x번 포트 -> x번 포트로 포워딩)
+  become: yes
+  tasks:
+   iptables:
+    table: nat
+    chain: PREROUTING
+    in_interface: eth0
+    protocol: tcp
+    match: tcp
+    destination_port: 80
+    jump: REDIRECT
+    to_ports: 8080
+    comment: Redirect web traffic to port 8080
+ 
