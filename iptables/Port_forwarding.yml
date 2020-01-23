@@ -1,6 +1,7 @@
 ---
 - name: Forward port 80 to 8080             # Forward 정책 (x번 포트 -> x번 포트로 포워딩)
   become: yes
+  hosts: ELK_Node
   tasks:
    iptables:
     table: nat
