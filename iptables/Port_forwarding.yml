@@ -4,13 +4,13 @@
   hosts: ELK_Node
   tasks:
    - iptables:
-      table: nat
+      table: nat                            # 적용시킬 TABLE 선택 (nat, mangle, filter - 기본)
       chain: PREROUTING
       in_interface: eth0
       protocol: tcp
       match: tcp
       destination_port: 80
       jump: REDIRECT
-      to_ports: 8080
+      to_ports: 8080                        # 변환시킬 포트정보
       comment: Redirect web traffic to port 8080
  
